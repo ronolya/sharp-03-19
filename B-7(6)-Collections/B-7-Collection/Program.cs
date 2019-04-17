@@ -9,35 +9,30 @@ namespace Base.Lesson_5
 {
     class Program
     {
+        class Neibghbor
+        {
+            public string fullName;
+            public int flatNumber;
+            public int phoneNumber;
+        }
         static void Main(string[] args)
         {
-            //ArrayListExample();
+            ArrayListExample();
 
             Console.ReadLine();
         }
-
+        
 
 
         public static void ArrayListExample()
         {
-            var poem = new ArrayList();
-            for (int i = 0; i < 5; i++)
-            {
-                var song = new Song();
-                song.Lyrics = Console.ReadLine();
-                poem.Add(song);
-            }
-
-            //poem.Sort();
-            poem.RemoveAt(poem.Count - 1);
-
-            object[] myArray = poem.ToArray();
-
-            foreach (var item in myArray)
-            {
-                Console.WriteLine(item);
-            }
-
+            var parts = new Dictionary<int, Neibghbor>();
+            parts.Add(1, new Neibghbor { fullName = "Vasia", flatNumber = 1, phoneNumber= 999 });
+            parts.Add(3, new Neibghbor { fullName = "Olia", flatNumber = 3, phoneNumber = 888 });
+            parts.Add(7, new Neibghbor { fullName = "Oleg", flatNumber = 7, phoneNumber = 777 });
+            Console.WriteLine("input flat number");
+            int s = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine(parts[s].phoneNumber);
         }
 
         public class Song
