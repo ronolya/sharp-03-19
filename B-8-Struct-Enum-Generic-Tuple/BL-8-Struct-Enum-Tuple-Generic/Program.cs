@@ -4,94 +4,113 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL_8_Struct_Enum_Tuple_Generic
+namespace Bl_8
 {
+    public class RectangleClass
+    {
+
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            RectangleClass rectangle = obj as RectangleClass;
+
+            if ((this.Height == rectangle.Height) & (this.Width == rectangle.Width))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+
     class Program
     {
+        static Random random = new Random();
+
+        public struct Rectangle
+        {
+            public int Width { get; set; }
+            public int Height { get; set; }
+        }
+
+        public static void RectangleMassive()
+        {
+
+            Rectangle[] rectangle = new Rectangle[100];
+            for (int i = 0; i < 100; i++)
+            {
+                rectangle[i].Height = random.Next(10);
+                rectangle[i].Width = random.Next(10);
+            }
+
+            int count = 0;
+
+            for (int i = 0; i < 100; i++)
+            {
+                for (int i2 = 0; i2 < 100; i2++)
+                {
+                    if (rectangle[i].Equals(rectangle[i2]))
+                    {
+                        Console.WriteLine($"{rectangle[i].Height} - { rectangle[i2].Height}" +
+                            $" {rectangle[i].Width} -  {rectangle[i2].Width}");
+                        count++;
+                    }
+                }
+            }
+
+            Console.WriteLine(count);
+        }
+
+        public static void RectangleMassiveClass()
+        {
+
+            RectangleClass rectangleClass = new RectangleClass();
+            List<RectangleClass> List = new List<RectangleClass>();
+
+            for (int i = 0; i < 100; i++)
+            {
+                rectangleClass = new RectangleClass();
+                rectangleClass.Height = random.Next(20);
+                rectangleClass.Width = random.Next(20);
+
+                List.Add(rectangleClass);
+            }
+
+            int count = 0;
+
+            for (int i = 0; i < 100; i++)
+            {
+                for (int i2 = 0; i2 < 100; i2++)
+                {
+                    //но для clr'a это всеравно два разных объекта
+                    if (List[i].Equals(List[i2]))
+                    {
+                        Console.WriteLine($"{List[i].Height} - { List[i2].Height}" +
+                            $" {List[i].Width} -  {List[i2].Width}");
+                        count++;
+                    }
+                }
+            }
+            Console.WriteLine(count);
+
+        }
+
         static void Main(string[] args)
         {
-            Practice.Lb8_P2_3();
+            RectangleMassive();
+            Console.ReadKey();
+            Console.Clear();
 
-            Lesson.EnumExample();
-
-            //Fruits blabla = (Fruits)4;
-            
-            var numbers = new [] { 1, 4, 2, 7, 8 };
-            SortUn<int>(numbers, new IntComparer());
-
-            var nbs = new Neighbor[]
-            {
-                new Neighbor { flatNumber = 5, name = "Olga"},
-                new Neighbor { flatNumber = 8, name = "Vika"},
-                new Neighbor { flatNumber = 3, name = "Lena"},
-            };
-
-            SortUn<Neighbor>(nbs, new NeibourComparer());
-
-            Console.ReadLine();
-        }
-
-        private const int bananos = 4;
-        
-             
-
-        private static void SortUn<TSortingType>(TSortingType[] numbers, IComparer comparer)
-        {
-            for (int i = 1; i < numbers.Length; i++)
-            {
-                //if (numbers[i - 1].flatNumber > numbers[i].flatNumber)
-                if (comparer.Compare(numbers[i - 1], numbers[i]) >= 1)
-                {
-                    var temp = numbers[i - 1];
-                    numbers[i - 1] = numbers[i];
-                    numbers[i] = temp;
-                }
-            }
-        }
-
-        class Neighbour
-        {
-            public string Name;
-            public int Number;
-        }
-
-        public interface IComparer<T>
-        {
-            int Compare(T obj1, T obj2);
-        }
-
-        public class IntComparer : IComparer<int>
-        {
-            public int Compare(int obj1, int obj2)
-            {
-                if (obj1 > obj2)
-                {
-                    return 1;
-                }
-                else if (obj1  == obj2)
-                {
-                    return 0;
-                }
-
-                return -1;
-            }
-        }
-
-        public class NeibourComparer : IComparer<Neighbor>
-        {
-            public int Compare(Neighbor obj1, Neighbor obj2)
-            {
-                if (obj1.flatNumber > (obj2).flatNumber)
-                {
-                    return 1;
-                }
-                else if (obj1.flatNumber == obj2.flatNumber)
-                {
-                    return 0;
-                }
-
-                return -1;
-            }
+            RectangleMassiveClass();
+            Console.ReadKey();
         }
     }
 }
