@@ -1,66 +1,184 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Console;
+﻿using AudioPleyr;
+using System;
+using System.Diagnostics;
+using System.Threading;
+using AudioPlayer.Classes;
 
-namespace AudioPlayer
+namespace AudioPleer
 {
     class Program
     {
-        static void Main(string[] args)
+        [Flags]
+        public enum LyriesEnum
         {
-            int min, max, total = 0;
-            var player = new Player();
-            var songs = CreateSongs(out min, out max, ref total);
-            player.Songs = songs;
-            Console.WriteLine($"Total duratio: {total}, max duration: {max}, min duration: {min}");
-            while (true)
-            {
-                switch (ReadLine())
-                {
-                    case "Up":
-                        {
-                            player.VolumeUp();
-                        }
-                        break;
-
-                    case "Down":
-                        {
-                            player.VolumeDown();
-                        }
-                        break;
-
-                    case "P":
-                        {
-                            player.Play();
-                        }
-                        break;
-                }
-            }
+            Folk,
+            Country,
+            Latin,
+            Blues,
+            Rhythm,
+            Jazz
         }
 
-        private static Song[] CreateSongs(out int min, out int max, ref int total)
+        #region Method
+        public static Artist AddArtist()
         {
-            Random rand = new Random();
-            Song[] songs = new Song[5];
-            int MinDuration = int.MaxValue, MaxDuration = int.MinValue, TotalDuration = 0;
-            for (int i = 0; i < songs.Length; i++)
+            Artist artist = new Artist();
+
+            return artist;
+        }
+        public static Artist AddArtist(string artistName, string nameAlbum)
+        {
+            Artist artist = new Artist();
+            artist.Name = artistName;
+            artist.Album.Name = nameAlbum;
+
+            return artist;
+        }
+        public static Artist AddArtist(string artistName, string nameAlbum, int ageAlbum)
+        {
+            Artist artist = new Artist();
+            artist.Name = artistName;
+            artist.Album.Name = nameAlbum;
+            artist.Album.Age = ageAlbum;
+
+            return artist;
+        }
+
+        public static Song CreateSongs()
+        {
+            Random random = new Random();
+            var song = new Song();
+            song.Title = "Дыр сигарет с ментолом";
+            song.Duration = random.Next(150, 500);
+            song.Artist = AddArtist();
+
+            return song;
+        }
+
+        public static Song CreateSongs(string nameSong, string nameAlbum, string artName)
+        {
+
+            Random random = new Random();
+            var song = new Song();
+            song.Title = nameSong;
+            song.Duration = random.Next(150, 500);
+            song.Artist = AddArtist(artName, nameAlbum);
+
+            return song;
+        }
+        public static Song CreateSongs(string nameSong, int duration, string artist, string nameAlbum, int ageAlbum, string liric)
+        {
+
+            var song = new Song();
+            song.Title = nameSong;
+            song.Duration = duration;
+            song.Artist = AddArtist(nameAlbum: nameAlbum, artistName: artist, ageAlbum: ageAlbum);
+            song.Lyries = liric;
+
+            return song;
+        }
+        #endregion
+
+        static void Main(string[] args)
+        {
+
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Black;
+
+            var player = new Player();
+            var thread = new Thread(() =>
             {
-                var song1 = new Song();
-                song1.Title = "Song" + i;
-                song1.Duration = rand.Next(3001);
-                song1.Artist = new Artist();
-                songs[i] = song1;
-                TotalDuration += song1.Duration;
-                MinDuration = song1.Duration < MinDuration ? song1.Duration : MinDuration;
-                MaxDuration = song1.Duration > MaxDuration ? song1.Duration : MaxDuration;
+                player.Play();
+
+            });
+
+            FileManager manager = new FileManager();
+
+            if (manager.IsExistFile())
+                player.DeserializeJson();
+
+            while (true)
+            {
+                Console.Write("Action:");
+
+                switch (Console.ReadLine().ToLower())
+                {
+                    case "play":
+                      
+                         thread.Start();
+                       
+                        break;
+
+                    case "stop":
+                        thread.Abort();
+                        break;
+
+                    case "sort":
+                        player.SortByTitle();                        
+                        break;
+
+                    case "random":
+                        player.Shuffle();
+                        break;
+
+                    case "volume":
+                        Console.Write("set volume=");
+
+                        int volume;
+                        bool isNumeric = int.TryParse(Console.ReadLine(), System.Globalization.NumberStyles.Integer, System.Globalization.NumberFormatInfo.InvariantInfo, out volume);
+
+                        if (isNumeric)
+                            player.Volume = volume;
+
+                        break;
+
+                    case "like":
+                        player.Like();
+                        break;
+
+                    case "dislike":
+                        player.Dislike();
+                        break;
+
+                    // вывидет на экран все песни с этим жанром 
+                    case "filter":
+                        player.FilterByGenre(LyriesEnum.Latin);
+                        break;
+
+                    case "exit":
+                        Process.GetCurrentProcess().Kill();
+                        break;
+
+                    case "addsong":
+
+                        string tempLirica = ((int)LyriesEnum.Blues | (int)LyriesEnum.Folk).ToString();
+                        var song1 = CreateSongs("A me Touch Your Fire", 30, "A R I Z O N A", "Album1", 2018, tempLirica);
+
+                        tempLirica = ((int)LyriesEnum.Latin).ToString();
+                        var song2 = CreateSongs("B me Touch Your Fire", 30, "A R I Z O N A", "Album1", 2018, tempLirica);
+
+                        tempLirica = ((int)LyriesEnum.Country | (int)LyriesEnum.Jazz).ToString();
+                        var song3 = CreateSongs("C me Touch Your Fire", 30, "A R I Z O N A", "Album1", 2018, tempLirica);
+
+                        tempLirica = ((int)LyriesEnum.Country | (int)LyriesEnum.Jazz).ToString();
+                        var song4 = CreateSongs("D me Touch Your Fire", 30, "A R I Z O N A", "Album1", 2018, tempLirica);
+
+                        tempLirica = ((int)LyriesEnum.Country | (int)LyriesEnum.Jazz).ToString();
+                        var song5 = CreateSongs("Z me Touch Your Fire", 30, "A R I Z O N A", "Album1", 2018, tempLirica);
+
+                        player.PlayAdd(song1, song2, song3,song4,song5);
+
+                        player.Shuffle();
+
+                        var str = player.SerializeJson();
+                        manager.WriteFile(str);
+
+                        break;
+
+                    default: break;
+                }
             }
-            total = TotalDuration;
-            max = MaxDuration;
-            min = MinDuration;
-            return songs;
         }
     }
 }
