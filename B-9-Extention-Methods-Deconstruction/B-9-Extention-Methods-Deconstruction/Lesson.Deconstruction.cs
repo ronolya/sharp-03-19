@@ -14,7 +14,10 @@ namespace Base_Lesson_9.Lesson
             var surname = person1.LastName;
 
             var (name1, surname1, fullname) = person1;
+            var (name12, surname12) = person1;
             var (name2, surname2) = person2;
+
+            //person1.Deconstruct(name1)
 
             Console.WriteLine(fullname);
         }
