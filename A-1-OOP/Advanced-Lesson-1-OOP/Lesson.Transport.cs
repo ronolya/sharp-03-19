@@ -27,6 +27,7 @@ namespace Advanced_Lesson_1_OOP
 
     public class Transport
     {
+        public string Number { get; set; }
         public int Weight { get; set; }
         public int Height { get; set; }
         public int Length { get; set; }
