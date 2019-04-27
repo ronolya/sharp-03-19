@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyDateTime.cs" />
     <Compile Include="Lesson.ExtentionMethods.cs" />
     <Compile Include="Lesson.Deconstruction.cs" />
     <Compile Include="Practice.cs" />
