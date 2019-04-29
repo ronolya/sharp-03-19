@@ -10,9 +10,9 @@ namespace Base_Lesson_9
     {
         static void Main(string[] args)
         {
-            //Practice.Practice.L9_P_EX_1_from_2();
-            //Practice.Practice.L9_P_EX_2_from_2();
-            Lesson.Lesson.DeconstructExample();
+            Practice.Practice.L9_P_EX_2_from_2();
+          
+            Console.ReadKey();
         }
     }
 }
