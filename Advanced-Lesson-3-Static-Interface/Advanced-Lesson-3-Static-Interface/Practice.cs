@@ -16,6 +16,11 @@ namespace Advanced_Lesson_3_Static_Interface
         /// </summary>
         public static void AL3_P1_3()
         {
+            for (int i = 0; i < 100; i++)
+            {
+                var product = new Product(DateTime.Now, "Product" + i);
+                Console.WriteLine(product.Id + " " + product.Name + " " + product.ExpirationDate);
+            }
         }
 
         /// <summary>
@@ -37,5 +42,25 @@ namespace Advanced_Lesson_3_Static_Interface
         {
         }
 
-    }    
+        public class Product
+        {
+            public int Id;
+            public DateTime ExpirationDate;
+            public string Name;
+
+            private static int IdCounter { get; set; }
+
+            public Product(DateTime ExpirationDate, string Name)
+            {
+                this.Name = Name;
+                Id = ++IdCounter;
+                this.ExpirationDate = ExpirationDate;
+            }
+
+            static Product()
+            {
+                IdCounter = 1000;
+            }
+        }
+    }
 }
