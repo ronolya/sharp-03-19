@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Player;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,20 @@ using System.Threading.Tasks;
 
 namespace AudioPlayer
 {
-    class Song
+    public class Song: PlayingItem
     {
-        public int Duration;
-        public string Title;
+        public Song()
+        {
+
+        }
+
+        public Song(string bla)
+        {
+
+        }
+
+        public override int Duration { get; set; }
+        public override string Title { get; set; }
         string Path;
         string Lyries;
         string Genre;

@@ -17,6 +17,7 @@ namespace Advanced_Lesson_7_Delegates
 
             VoidDelegate voidMultipleDelegate = Log;
             voidMultipleDelegate += LogSum;
+            //voidMultipleDelegate = voidMultipleDelegate + LogSum;
 
             ReturnDelegate returnSingleDelegate = Mult;
 

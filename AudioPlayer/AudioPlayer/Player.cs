@@ -1,59 +1,23 @@
-﻿using System;
+﻿using Player;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace AudioPlayer
 {
-    class Player
+    public class APlayer: BasePlayer<Song>
     {
-        private const int _maxVolume = 100;
-        private int _volume;
-        public int Volume
+        public override void Play()
         {
-            get
+            for (int i = 0; i < Items.Count; i++)
             {
-                return _volume;
+                Console.WriteLine(Items[i].Title + " " + Items[i].Artist.Name + " " + Items[i].Duration);
+                System.Threading.Thread.Sleep(Items[i].Duration);
             }
-            private set
-            {
-                if(value > _maxVolume)
-                {
-                    _volume = _maxVolume;
-                }
-                else if(value < 0)
-                {
-                    _volume = 0;
-                }
-                else
-                {
-                    _volume = value;
-                }
-            }
-        }
-        bool IsLock;
-        public Song[] Songs;
-
-        public void Play()
-        {
-            for (int i = 0; i < Songs.Length; i++)
-            {
-                Console.WriteLine(Songs[i].Title + " " + Songs[i].Artist.Name + " " +Songs[i].Duration);
-                System.Threading.Thread.Sleep(Songs[i].Duration);
-            }
-        }
-
-        public void VolumeUp()
-        {
-            Volume += 5;
-            Console.WriteLine("Volume is: " + Volume);
-        }
-
-        public void VolumeDown()
-        {
-            Volume -= 5;
-            Console.WriteLine("Volume is: " + Volume);
         }
     }
 }

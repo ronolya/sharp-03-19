@@ -18,8 +18,8 @@ namespace Advanced_Lesson_7_Delegates
             //Lesson.SortWithAnonymousFunction();
             //Lesson.SortWithLambdaFunction();
             //Lesson.CarDelegateExample();
-            Lesson.ExamExample();
-
+            //Lesson.ExamExample();
+            Practice.L7P1_Calculator();
             Console.ReadLine();
         }
     }

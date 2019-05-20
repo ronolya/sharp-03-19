@@ -12,9 +12,9 @@ namespace AudioPlayer
         static void Main(string[] args)
         {
             int min, max, total = 0;
-            var player = new Player();
+            var player = new APlayer();
             var songs = CreateSongs(out min, out max, ref total);
-            player.Songs = songs;
+            //player.Items = songs;
             Console.WriteLine($"Total duratio: {total}, max duration: {max}, min duration: {min}");
             while (true)
             {
