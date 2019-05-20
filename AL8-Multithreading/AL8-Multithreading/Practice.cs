@@ -15,7 +15,30 @@ namespace Advanced_Lesson_6_Multithreading
         /// консоли без перезапуска приложения.
         /// </summary>
         public static void LA8_P1_5()
-        {            
+        {
+            var thread = new Thread(() =>
+            {
+                while (true)
+                {
+                    Console.WriteLine(DateTime.Now);
+                    System.Threading.Thread.Sleep(1000);
+                    Console.Clear();
+                }
+            });
+            thread.Start();
+            while (true)
+            {
+                switch (Console.ReadLine())
+                {
+                    case "s":
+                        thread.Resume();
+                        break;
+                    case "b":
+                        thread.Suspend();
+                        break;
+                }
+            }
+           
         }
 
         /// <summary>
