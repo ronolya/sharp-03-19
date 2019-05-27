@@ -12,12 +12,20 @@ namespace Advance.Lesson_5
         public static async Task AsyncAwaitException()
         {
             int devider = 0;
-            var task = Task.Run(() => 2 / devider);
+            //var task = Task.Run(() => 2 / devider);
+
+            var task = new Task(() =>
+            {
+                Console.WriteLine("Running task");
+            });
 
             try
             {
                 //Важно поместить в try/catch await
-                await task;
+                task.Start();
+                //await task;
+                Console.WriteLine("After task");
+                
             }
             catch (Exception ex)
             {

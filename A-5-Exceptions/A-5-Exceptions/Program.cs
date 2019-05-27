@@ -12,7 +12,7 @@ namespace Advance.Lesson_5
         {
             //AdultException();
             //AsyncAwaitException();
-            AsyncExceptionUnObservedExample();
+            AsyncAwaitException();
             //AsyncExceptionObservedExample();
             Console.ReadLine();
         }
